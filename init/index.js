@@ -1,21 +1,26 @@
+
 const mongoose = require("mongoose");
-const initdata = require("./data.js");
-const Listing = require("./models/listing.js"); // ✅ correct relative path
-require("dotenv").config(); // Load environment variables
+const initData = require("./data.js");
+const Listing = require("../models/listing.js");
+
+const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+
+main()
+  .then(() => {
+    console.log("connected to DB");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 async function main() {
-  try {
-    await mongoose.connect(process.env.MONGO_URL);
-    console.log("✅ Successfully connected to MongoDB");
-
-    await Listing.deleteMany({});
-    await Listing.insertMany(initdata.data);
-    console.log("✅ Sample data inserted");
-
-    mongoose.connection.close(); // close after seeding
-  } catch (err) {
-    console.error("❌ Error:", err);
-  }
+  await mongoose.connect(MONGO_URL);
 }
 
-main();
+const initDB = async () => {
+  await Listing.deleteMany({});
+  await Listing.insertMany(initData.data);
+  console.log("data was initialized");
+};
+
+initDB();
