@@ -1,20 +1,29 @@
-const mongoose= require ("mongoose");
-const initdata =require("./data.js");
-const Listing =require("../models/listing.js");
+const mongoose = require("mongoose");
+const initdata = require("./data.js");
+const Listing = require("../models/listing.js");
+require("dotenv").config(); // Load environment variables
 
-//connect to data base
+// Connect to MongoDB using environment variable
 main()
-    .then((res) => { console.log("succesfully connected to db") })
-    .catch((err) => { console.log(err) });
+  .then(() => {
+    console.log("✅ Successfully connected to MongoDB");
+    initDb();
+  })
+  .catch((err) => {
+    console.error(" MongoDB connection error:", err);
+  });
 
 async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/roomConnects");
+  await mongoose.connect(process.env.MONGO_URL);
 }
 
-const initDb=async ()=>{
- await Listing.deleteMany({});
- await Listing.insertMany(initdata.data);
- console.log("data was initilized");
-}
-
-initDb()
+const initDb = async () => {
+  try {
+    await Listing.deleteMany({});
+    await Listing.insertMany(initdata.data);
+    console.log(" Database has been seeded!");
+    mongoose.connection.close(); // Close connection after done
+  } catch (err) {
+    console.error(" Seeding error:", err);
+  }
+};
