@@ -1,5 +1,8 @@
 body{
   font-family: "Plus Jakarta Sans", sans-serif !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 
@@ -7,7 +10,9 @@ body{
     height: 5rem;
     background-color: white;
 }
-
+footer {
+  margin-top: auto;
+}
 .fa-compass {
     color: #fe424d;
     font-size: 2rem;
@@ -41,7 +46,7 @@ body{
   width: 100%; 
  font-size: 1.2rem;
 }
-.card {
+.listing-card {
   border: none !important;
   margin-bottom: 2rem;
 }
@@ -64,4 +69,8 @@ body{
 }
 .show-img{
   height: 30vh;
+}
+#map {
+height: 300px;
+width: 90vh;
 }
